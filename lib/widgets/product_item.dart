@@ -15,20 +15,26 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context, listen: true);  // listen:false olursa dinleme gerçekleşmez.favori simgesi değişmez
+    final product = Provider.of<Product>(context, listen: false);
+
+    // print('product rebuilds');
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: IconButton(
-            icon: Icon(
-                product.isFavorite ? Icons.favorite : Icons.favorite_border),
-            color: Theme.of(context).colorScheme.secondary,
-            onPressed: () {
-              product.toggleFavoritesStatus();
-            },
+          leading: Consumer<Product>(
+            builder: (ctx, product, child) => IconButton(
+              icon: Icon(
+                product.isFavorite ? Icons.favorite : Icons.favorite_border,
+              ),
+              color: Theme.of(context).colorScheme.secondary,
+              onPressed: () {
+                product.toggleFavoritesStatus();
+              },
+            ),
+            // child: const Text('Never changes!'),
           ),
           title: Text(
             product.title,
