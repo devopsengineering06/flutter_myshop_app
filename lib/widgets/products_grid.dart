@@ -25,7 +25,8 @@ class ProductsGrid extends StatelessWidget {
         //   return products[i];
         // },
         value: products[i],
-        child: const ProductItem(
+  
+        child:   const ProductItem(
             // products[i].id,
             // products[i].title,
             // products[i].imageUrl,
