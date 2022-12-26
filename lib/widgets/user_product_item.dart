@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/products.dart';
 import '../screens/edit_product_screen.dart';
 
 class UserProductItem extends StatelessWidget {
@@ -8,7 +10,10 @@ class UserProductItem extends StatelessWidget {
   final String imageUrl;
 
   const UserProductItem(
-      {super.key, required this.title, required this.imageUrl, required this.id});
+      {super.key,
+      required this.title,
+      required this.imageUrl,
+      required this.id});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,8 @@ class UserProductItem extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                 Navigator.of(context).pushNamed(EditProductScreen.routeName, arguments: id);
+                Navigator.of(context)
+                    .pushNamed(EditProductScreen.routeName, arguments: id);
               },
               icon: Icon(
                 Icons.edit,
@@ -31,7 +37,9 @@ class UserProductItem extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<Products>(context, listen: false).deleteProduct(id);
+              },
               icon: Icon(
                 Icons.delete,
                 color: Theme.of(context).errorColor,
