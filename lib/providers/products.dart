@@ -72,25 +72,30 @@ class Products with ChangeNotifier {
     final url = Uri.parse(
         'https://my-awesome-project-51714-default-rtdb.firebaseio.com/products.json');
 
-    http.post(url,
-        body: json.encode({
-          'title': product.title,
-          'description': product.description,
-          'imageUrl': product.imageUrl,
-          'price': product.price,
-          'isfavorite': product.isFavorite,
-        }));
-
-    final newProduct = Product(
-      title: product.title,
-      description: product.description,
-      price: product.price,
-      imageUrl: product.imageUrl,
-      id: DateTime.now().toString(),
+    http
+        .post(url,
+            body: json.encode({
+              'title': product.title,
+              'description': product.description,
+              'imageUrl': product.imageUrl,
+              'price': product.price,
+              'isfavorite': product.isFavorite,
+            }))
+        .then(
+      (response) {
+        final newProduct = Product(
+          title: product.title,
+          description: product.description,
+          price: product.price,
+          imageUrl: product.imageUrl,
+          id: jsonDecode(response.body)['name'],
+        );
+        _items.add(newProduct);
+        // _items.insert(0, newProduct); // at the start of the list
+        debugPrint(_items.last.id);
+        notifyListeners();
+      },
     );
-    _items.add(newProduct);
-    // _items.insert(0, newProduct); // at the start of the list
-    notifyListeners();
   }
 
   void updateProduct(String id, Product newProduct) {
