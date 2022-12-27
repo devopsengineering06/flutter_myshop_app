@@ -73,29 +73,32 @@ class Products with ChangeNotifier {
         'https://my-awesome-project-51714-default-rtdb.firebaseio.com/products.json');
 
     return http
-        .post(url,
-            body: json.encode({
-              'title': product.title,
-              'description': product.description,
-              'imageUrl': product.imageUrl,
-              'price': product.price,
-              'isfavorite': product.isFavorite,
-            }))
-        .then(
-      (response) {
-        final newProduct = Product(
-          title: product.title,
-          description: product.description,
-          price: product.price,
-          imageUrl: product.imageUrl,
-          id: jsonDecode(response.body)['name'],
-        );
-        _items.add(newProduct);
-        // _items.insert(0, newProduct); // at the start of the list
-        debugPrint(_items.last.id);
-        notifyListeners();
-      },
-    );
+        .post(
+      url,
+      body: json.encode({
+        'title': product.title,
+        'description': product.description,
+        'imageUrl': product.imageUrl,
+        'price': product.price,
+        'isfavorite': product.isFavorite,
+      }),
+    )
+        .then((response) {
+      final newProduct = Product(
+        title: product.title,
+        description: product.description,
+        price: product.price,
+        imageUrl: product.imageUrl,
+        id: jsonDecode(response.body)['name'],
+      );
+      _items.add(newProduct);
+      // _items.insert(0, newProduct); // at the start of the list
+      // debugPrint(_items.last.id);
+      notifyListeners();
+    }).catchError((error) {
+      // print(error);
+      return error;
+    }).then((value) => null);
   }
 
   void updateProduct(String id, Product newProduct) {
@@ -104,7 +107,7 @@ class Products with ChangeNotifier {
       _items[prodIndex] = newProduct;
       notifyListeners();
     } else {
-      debugPrint('...');
+      // debugPrint('...');
     }
   }
 

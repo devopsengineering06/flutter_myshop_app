@@ -49,7 +49,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     if (_isInit) {
       if (ModalRoute.of(context)?.settings.arguments != null) {
         final productId = ModalRoute.of(context)!.settings.arguments as String;
-        debugPrint(productId);
+        // debugPrint(productId);
         if (productId != '') {
           _editedProduct =
               Provider.of<Products>(context, listen: false).findById(productId);
@@ -114,7 +114,23 @@ class _EditProductScreenState extends State<EditProductScreen> {
     } else {
       Provider.of<Products>(context, listen: false)
           .addProduct(_editedProduct)
-          .then((_) {
+          .catchError((error) {
+        return showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+            title: const Text('An error occurred!'),
+            content: const Text('Something went wrong.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Okay'),
+                onPressed: () {
+                  Navigator.of(ctx).pop();
+                },
+              ),
+            ],
+          ),
+        );
+      }).then((_) {
         setState(() {
           _isLoading = false;
         });
