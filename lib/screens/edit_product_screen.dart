@@ -105,12 +105,8 @@ class _EditProductScreenState extends State<EditProductScreen> {
     // debugPrint(_editedProduct.price.toString());
     // debugPrint(_editedProduct.imageUrl);
     if (_editedProduct.id != '') {
-      Provider.of<Products>(context, listen: false)
+      await Provider.of<Products>(context, listen: false)
           .updateProduct(_editedProduct.id, _editedProduct);
-      setState(() {
-        _isLoading = false;
-      });
-      Navigator.of(context).pop();
     } else {
       try {
         await Provider.of<Products>(context, listen: false)
@@ -131,13 +127,20 @@ class _EditProductScreenState extends State<EditProductScreen> {
             ],
           ),
         );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
-        Navigator.of(context).pop();
       }
+      // finally {
+      //   setState(() {
+      //     _isLoading = false;
+      //   });
+      //   Navigator.of(context).pop();
+      // }
     }
+    /* turn off loading spinner and pop the edit screen */
+    setState(() {
+      _isLoading = false;
+    });
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).pop();
     // Navigator.of(context).pop();
   }
 
