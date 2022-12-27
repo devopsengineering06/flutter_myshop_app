@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 // import 'package:provider/provider.dart';
 
 // import '../providers/products.dart';
+import '../providers/products.dart';
 import '../screens/cart_screen.dart';
 import '../widgets/app_drawer.dart';
 import '../providers/cart.dart';
@@ -23,6 +24,29 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   var _showOnlyFavorites = false;
+  var _isInit = true;
+
+  @override
+  void initState() {
+    // 1. yol
+    // Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+
+    // 2. yol
+    // Future.delayed(Duration.zero).then((_) {
+    //   Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+    // });
+    super.initState();
+  }
+
+// 3. yol
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      Provider.of<Products>(context).fetchAndSetProducts().then((_) {});
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {

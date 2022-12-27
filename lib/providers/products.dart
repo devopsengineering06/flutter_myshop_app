@@ -68,6 +68,31 @@ class Products with ChangeNotifier {
   //   notifyListeners();
   // }
 
+  Future<void> fetchAndSetProducts() async {
+    final url = Uri.parse(
+        'https://my-awesome-project-51714-default-rtdb.firebaseio.com/products.json');
+    try {
+      final response = await http.get(url);
+      print(response);
+      // final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      // final List<Product> loadedProducts = [];
+      // extractedData.forEach((prodId, prodData) {
+      //   loadedProducts.add(Product(
+      //     id: prodId,
+      //     title: prodData['title'],
+      //     description: prodData['description'],
+      //     price: prodData['price'],
+      //     isFavorite: prodData['isFavorite'],
+      //     imageUrl: prodData['imageUrl'],
+      //   ));
+      // });
+      // _items = loadedProducts;
+      // notifyListeners();
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<void> addProduct(Product product) async {
     final url = Uri.parse(
         'https://my-awesome-project-51714-default-rtdb.firebaseio.com/products.json');
