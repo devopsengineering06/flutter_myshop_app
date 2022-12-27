@@ -73,7 +73,7 @@ class Products with ChangeNotifier {
         'https://my-awesome-project-51714-default-rtdb.firebaseio.com/products.json');
     try {
       final response = await http.get(url);
-      print(jsonDecode(response.body));
+      // print(jsonDecode(response.body));
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
       final List<Product> loadedProducts = [];
       extractedData.forEach((prodId, prodData) {
@@ -87,7 +87,7 @@ class Products with ChangeNotifier {
         ));
       });
       _items = loadedProducts;
-      print(_items.first.isFavorite);
+      // print(_items.first.isFavorite);
       notifyListeners();
     } catch (e) {
       rethrow;
