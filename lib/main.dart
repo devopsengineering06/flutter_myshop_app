@@ -25,8 +25,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (ctx) => Auth(),
         ),
-        ChangeNotifierProvider(
-          create: (ctx) => Products(),
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (ctx) => Products('', []),
+          update: (ctx, auth, previousProducts) => Products(
+              auth.token as String,
+              previousProducts == null ? [] : previousProducts.items),
         ),
         ChangeNotifierProvider(
           create: (ctx) => Cart(),
@@ -43,7 +46,7 @@ class MyApp extends StatelessWidget {
                 .copyWith(secondary: Colors.deepOrange),
             fontFamily: 'Lato',
           ),
-          home:    
+          home:
               auth.isAuth ? const ProductsOverviewScreen() : const AuthScreen(),
           routes: {
             ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
