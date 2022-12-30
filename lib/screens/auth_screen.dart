@@ -310,7 +310,7 @@ class _AuthCardState extends State<AuthCard>
   │                 More Built-in Animation & Transition Widgets             │
   └──────────────────────────────────────────────────────────────────────────┘
    https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15157128#overview
-   
+   https://github.com/devopsengineering06/flutter_myshop_app/commit/3afccfb97ea45affc426d78b6a2769c32e8e631c
 */
                 // if (_authMode == AuthMode.signup)
                 AnimatedContainer(
