@@ -118,7 +118,9 @@ class _AuthCardState extends State<AuthCard>
    https://github.com/devopsengineering06/flutter_myshop_app/commit/a1ea420d870b5b4b996ee4f8e4d14ef918f1e4e9
  */
   late AnimationController _controller;
-  late Animation<Size> _heightAnimation;
+  // late Animation<Size> _heightAnimation;
+  late Animation<Offset> _slideAnimation;
+  late Animation<double> _opacityAnimation;
 
   @override
   void initState() {
@@ -129,13 +131,19 @@ class _AuthCardState extends State<AuthCard>
         milliseconds: 300,
       ),
     );
-    _heightAnimation = Tween<Size>(
-            begin: const Size(double.infinity, 260),
-            end: const Size(double.infinity, 320))
-        .animate(
+    _slideAnimation = Tween<Offset>(
+      begin: const Offset(0, -1.5),
+      end: const Offset(0, 0),
+    ).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Curves.fastOutSlowIn,
+      ),
+    );
+    _opacityAnimation = Tween(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeIn,
       ),
     );
     // _heightAnimation.addListener(() => setState(() {}));
@@ -251,7 +259,7 @@ class _AuthCardState extends State<AuthCard>
   │                 Working with the "AnimatedContainer"                     │
   └──────────────────────────────────────────────────────────────────────────┘
    https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15157126#overview
-   
+   https://github.com/devopsengineering06/flutter_myshop_app/commit/0ad8a0ff7aefa8ef80b9e1e5c0e3b26346e52831
 */
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
@@ -296,21 +304,43 @@ class _AuthCardState extends State<AuthCard>
                     _authData['password'] = value!;
                   },
                 ),
-                if (_authMode == AuthMode.signup)
-                  TextFormField(
-                    enabled: _authMode == AuthMode.signup,
-                    decoration:
-                        const InputDecoration(labelText: 'Confirm Password'),
-                    obscureText: true,
-                    validator: _authMode == AuthMode.signup
-                        ? (value) {
-                            if (value != _passwordController.text) {
-                              return 'Passwords do not match!';
-                            }
-                            return null;
-                          }
-                        : null,
+
+/* 
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                 More Built-in Animation & Transition Widgets             │
+  └──────────────────────────────────────────────────────────────────────────┘
+   https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15157128#overview
+   
+*/
+                // if (_authMode == AuthMode.signup)
+                AnimatedContainer(
+                  constraints: BoxConstraints(
+                    minHeight: _authMode == AuthMode.signup ? 60 : 0,
+                    maxHeight: _authMode == AuthMode.signup ? 120 : 0,
                   ),
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeIn,
+                  child: FadeTransition(
+                    opacity: _opacityAnimation,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: TextFormField(
+                        enabled: _authMode == AuthMode.signup,
+                        decoration: const InputDecoration(
+                            labelText: 'Confirm Password'),
+                        obscureText: true,
+                        validator: _authMode == AuthMode.signup
+                            ? (value) {
+                                if (value != _passwordController.text) {
+                                  return 'Passwords do not match!';
+                                }
+                                return null;
+                              }
+                            : null,
+                      ),
+                    ),
+                  ),
+                ),
                 const SizedBox(
                   height: 20,
                 ),
