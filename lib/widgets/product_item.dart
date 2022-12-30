@@ -86,12 +86,16 @@ class ProductItem extends StatelessWidget {
   │                 Fading Loaded Images In (And Showing a Placeholder)      │
   └──────────────────────────────────────────────────────────────────────────┘
    https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15157130#overview
-   
+   https://github.com/devopsengineering06/flutter_myshop_app/commit/a0e0d5b813696f3438ec6db158dfe9d08c637dab
 */
-          child: FadeInImage(
-            placeholder: const AssetImage('assets/images/product-placeholder.png'),
-            image: NetworkImage(product.imageUrl),
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder:
+                  const AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
       ),

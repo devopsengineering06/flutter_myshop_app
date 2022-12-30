@@ -27,9 +27,19 @@ class ProductDetailScreen extends StatelessWidget {
             SizedBox(
               height: 300,
               width: double.infinity,
-              child: Image.network(
-                loadedProduct.imageUrl,
-                fit: BoxFit.cover,
+/* 
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                     Adding a "Hero" Transition                           │
+  └──────────────────────────────────────────────────────────────────────────┘
+   https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15157132#overview
+   
+*/
+              child: Hero(
+                tag: loadedProduct.id,
+                child: Image.network(
+                  loadedProduct.imageUrl,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const SizedBox(height: 10),
