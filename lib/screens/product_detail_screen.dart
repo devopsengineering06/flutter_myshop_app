@@ -22,7 +22,7 @@ class ProductDetailScreen extends StatelessWidget {
   │                     Working with Slivers                                 │
   └──────────────────────────────────────────────────────────────────────────┘
    https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15157134#overview
-   
+   https://github.com/devopsengineering06/flutter_myshop_app/commit/980c558d02c5091fa6c969a651f8013fabaacc54
 */
     return Scaffold(
       // appBar: AppBar(
