@@ -111,9 +111,11 @@ class _AuthCardState extends State<AuthCard>
   final _passwordController = TextEditingController();
 
   /* 
-  ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
-  │282. Animations From Scratch (Completely Manually Controlled) https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15157120#questions/17534306      │
-  └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │  Animations From Scratch (Completely Manually Controlled)                │
+  └──────────────────────────────────────────────────────────────────────────┘
+   https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15157120#questions/17534306
+   https://github.com/devopsengineering06/flutter_myshop_app/commit/a1ea420d870b5b4b996ee4f8e4d14ef918f1e4e9
  */
   late AnimationController _controller;
   late Animation<Size> _heightAnimation;
@@ -136,7 +138,7 @@ class _AuthCardState extends State<AuthCard>
         curve: Curves.fastOutSlowIn,
       ),
     );
-    _heightAnimation.addListener(() => setState(() {}));
+    // _heightAnimation.addListener(() => setState(() {}));
   }
 
   @override
@@ -144,7 +146,7 @@ class _AuthCardState extends State<AuthCard>
     super.dispose();
     _controller.dispose();
   }
- /* 
+  /* 
   ┌───────────────────────────────────────────────────────────────────────────┐
   │---------------------------------------------------------------------------│
   └───────────────────────────────────────────────────────────────────────────┘
@@ -236,14 +238,25 @@ class _AuthCardState extends State<AuthCard>
         borderRadius: BorderRadius.circular(10.0),
       ),
       elevation: 8.0,
-      child: Container(
-        // height: _authMode == AuthMode.signup ? 320 : 260,
-        height: _heightAnimation.value.height,
-        constraints:
-            // BoxConstraints(minHeight: _authMode == AuthMode.signup ? 320 : 260),
-            BoxConstraints(minHeight: _heightAnimation.value.height),
-        width: deviceSize.width * 0.75,
-        padding: const EdgeInsets.all(16.0),
+/* 
+  ┌──────────────────────────────────────────────────────────────────────────┐
+  │                 Using the "AnimatedBuilder" Widget                       │
+  └──────────────────────────────────────────────────────────────────────────┘
+   https://www.udemy.com/course/learn-flutter-dart-to-build-ios-android-apps/learn/lecture/15157122#overview
+   
+*/
+      child: AnimatedBuilder(
+        animation: _heightAnimation,
+        builder: (ctx, ch) => Container(
+          // height: _authMode == AuthMode.signup ? 320 : 260,
+          height: _heightAnimation.value.height,
+          constraints:
+              // BoxConstraints(minHeight: _authMode == AuthMode.signup ? 320 : 260),
+              BoxConstraints(minHeight: _heightAnimation.value.height),
+          width: deviceSize.width * 0.75,
+          padding: const EdgeInsets.all(16.0),
+          child: ch,
+        ),
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
